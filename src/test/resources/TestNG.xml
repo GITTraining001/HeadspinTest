@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="EclecticIQ">
+<!--  <listeners>-->
+<!--    <listener class-name="SuiteUtils.SuiteListener"/>-->
+<!--  </listeners>-->
+  <test name="Tests">
+    <classes>
+      <class name="Tests.MobileTest1">
+        <methods>
+          <include name="TestSortingOfFirstAndSecondColumn"/>
+        </methods>
+      </class>
+    </classes>
+  </test> <!-- 11 Tests -->
+</suite> <!-- EclecticIQ -->

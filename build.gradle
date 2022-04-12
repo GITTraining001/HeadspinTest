@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+//    id 'io.qameta.allure'
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+//allure {
+//    version = '2.2.1'
+//    autoconfigure = true
+//    aspectjweaver = true
+//    allureJavaVersion = LATEST_VERSION
+//}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    implementation group: 'org.testng', name: 'testng', version: '7.4.0'
+    implementation group: 'io.appium', name: 'java-client', version: '7.6.0'
+    // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-java', version: '3.141.59'
+    implementation group: 'io.github.bonigarcia', name: 'webdrivermanager', version: '5.0.3'
+    implementation group: 'org.yaml', name: 'snakeyaml', version: '1.29'
+    implementation group: 'io.qameta.allure', name: 'allure-testng', version: '2.15.0'
+    implementation group: 'org.seleniumhq.selenium', name: 'selenium-remote-driver', version: '3.141.59'
+//Thanks for using https://jar-download.com
+
+
+
+}
+
+test {
+    useTestNG() {
+        dependsOn cleanTest
+        useDefaultListeners = true
+        suites "src/test/resources/TestNG.xml"
+
+    }
+}
+
+

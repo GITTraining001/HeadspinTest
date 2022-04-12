@@ -1,0 +1,8 @@
+Device:
+  OS:
+    - Android
+  DeviceName:
+    - Nexus5
+TestFilterToFail:
+  filterwords:
+    - "9024"

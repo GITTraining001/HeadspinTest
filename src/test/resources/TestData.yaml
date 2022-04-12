@@ -1,0 +1,7 @@
+TestFilterHappyPath:
+  filterwords:
+    - h
+    - high
+TestFilterToFail:
+  filterwords:
+    - "9024"
