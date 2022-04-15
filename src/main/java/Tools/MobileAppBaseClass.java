@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
 import javax.imageio.ImageIO;
 
 import ConfigParser.ConfigParser;
+import io.appium.java_client.android.Activity;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.PointOption;
 import org.apache.commons.io.FileUtils;
@@ -53,7 +54,7 @@ public class MobileAppBaseClass {
     private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(MobileAppBaseClass.class);
     private static final int TIMEOUT_IN_SECONDS = 40;
     WebDriverWait wait;
-    public static long max = 60;
+    public static long max = 30;
     public static long med = 30;
     public static long min = 10;
     // public static String Currentplatform=MobileBaseTest.DeviceOS;
@@ -392,12 +393,54 @@ public class MobileAppBaseClass {
         LOG.info("Entered " + text + " into the " + element + " text field");
     }
 
-    protected void type(By element, String text, WebDriver driver) {
+    protected void type(By element, String text) {
         LOG.info("Entering Text");
-        WebElement element1 = driver.findElement(element);
+        int count = 0;
+        WebElement element1 = null;
+        while (true) {
+            try {
+                element1 = dr.findElement(element);
+                break;
+                // LOG.info("Clicked on element: " + element);
+            } catch (Exception e) {
+                e.printStackTrace();
+                if (count == 10) {
+                    return;
+                }
+                count++;
+            }
+        }
         element1.click();
         element1.clear();
-        element1.sendKeys(new CharSequence[]{text});
+        for (Character c: text.toCharArray()){
+            element1.sendKeys(Character.toString(c));
+        }
+//        element1.sendKeys(text);//new CharSequence[]{text});
+        LOG.info("Entered " + text + " into the " + element + " text field");
+    }
+
+    protected void type(By element, List<String> text) {
+        LOG.info("Entering Text");
+        int count = 0;
+        WebElement element1 = null;
+        while (true) {
+            try {
+                element1 = dr.findElement(element);
+                break;
+                // LOG.info("Clicked on element: " + element);
+            } catch (Exception e) {
+                e.printStackTrace();
+                if (count == 10) {
+                    return;
+                }
+                count++;
+            }
+        }
+        element1.click();
+        element1.clear();
+        for (String t : text) {
+            element1.sendKeys(t);//new CharSequence[]{text});
+        }
         LOG.info("Entered " + text + " into the " + element + " text field");
     }
 
@@ -1057,6 +1100,10 @@ public class MobileAppBaseClass {
             default:
                 break;
         }
+    }
+
+    protected void switchApp(String appPackage, String appActivity){
+        dr.startActivity(new Activity(appPackage, appActivity));
     }
 
 }

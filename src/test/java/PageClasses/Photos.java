@@ -1,9 +1,13 @@
 package PageClasses;
 
 import Utils.MobileInitializer;
+import Utils.Utilities;
 import org.openqa.selenium.By;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Photos extends MobileInitializer {
     By sortSelect = By.xpath("//android.widget.Button[4]");
@@ -12,6 +16,14 @@ public class Photos extends MobileInitializer {
     By infoButtonInImagePreview = By.xpath("//android.widget.ImageView[@content-desc=\"More options\"]");
     By imagePath = By.xpath("//android.widget.LinearLayout[2]/android.widget.LinearLayout/android.widget.TextView[1]");
     By closeInfo = By.xpath("//android.widget.ImageButton[@content-desc=\"Close info\"]");
+    By gmailComposeButton = By.xpath("//android.widget.Button[@text=\"Compose\"]");
+    By gmailSmartComposeOKButton = By.xpath("//android.widget.Button[@text=\"OK\"]");
+    By gmailSendToTextField = By.xpath("//android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.RelativeLayout/android.view.ViewGroup/android.widget.EditText");
+    By gmailSubjectTextField = By.xpath("//android.widget.LinearLayout[2]/android.widget.LinearLayout/android.widget.EditText");
+    By gmailAttachFileButton = By.xpath("//android.widget.TextView[@content-desc=\"Attach file\"]");
+    By gmailAttachFileMenuItem = By.xpath("//android.widget.TextView[@text = \"Attach file\"]");
+    By gmailImageFileToAttach = By.xpath("//android.widget.TextView[@text = \"Test.png\"]");
+    By gmailSendButton = By.xpath ("//android.widget.TextView[@content-desc=\"Send\"]");
 
     public boolean copyFileToDevice() {
         boolean waitVal = super.waitForWebElementVisibilityOf(sortSelect);
@@ -57,8 +69,8 @@ public class Photos extends MobileInitializer {
     }
 
     public boolean changeOrientation(String type) {
-        super.clickOnElement(closeInfo);
         super.changeScreenOrientation(type);
+        Utilities.sleep(3000);
         return true;
     }
 
@@ -68,7 +80,40 @@ public class Photos extends MobileInitializer {
             return null;
         }
         System.out.println("Clicked on Image Preview");
-        return super.getText(imagePath);
+        String pathText = super.getText(imagePath);
+        super.clickOnElement(closeInfo);
+        return pathText;
+    }
+
+    public boolean switchToGmailApp(String appPackage, String appActivity){
+        super.switchApp(appPackage, appActivity);
+        if (!super.waitForWebElementVisibilityOf(gmailComposeButton)){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean sendEmail(){
+        super.clickOnElement(gmailComposeButton);
+        if (super.waitForWebElementVisibilityOf(gmailSmartComposeOKButton)){
+            super.clickOnElement(gmailSmartComposeOKButton);
+        }
+        if(!super.waitForWebElementVisibilityOf(gmailSendToTextField)){
+            return false;
+        }
+        List<String> emailList = new ArrayList<String>(){
+            {
+                add("ashithraj.shetty@gmail.com, ");
+                add("asithraj.shetty@gmail.com, ");
+            }
+        };
+
+        super.type(gmailSendToTextField, emailList);//"ashithraj.shetty@gmail.com,asithraj.shetty@gmail.com")
+        super.clickOnElement(gmailAttachFileButton);
+        super.clickOnElement(gmailAttachFileMenuItem);
+        super.clickOnElement(gmailImageFileToAttach);
+        super.clickOnElement(gmailSendButton);
+        return true;
     }
 
 }

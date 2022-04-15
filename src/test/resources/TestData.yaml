@@ -1,7 +1,3 @@
-TestFilterHappyPath:
-  filterwords:
-    - h
-    - high
-TestFilterToFail:
-  filterwords:
-    - "9024"
+CopyImageFileToDeviceAndEmail:
+  appPackage: com.google.android.gm
+  appActivity: com.google.android.gm.ConversationListActivityGmail
